@@ -1,6 +1,4 @@
-import gym
-
-env = gym.make('Blackjack-v0')
+import BlackJackEnviornment
 
 totalPlays = 100000
 wins = 0 # keep track of number of wins
@@ -8,7 +6,7 @@ losses = 0 # keep track of number of losses
 ties = 0 # keep track of number of ties
 naturals = 0 # keep track of number of natural blackjacks
 naturals = 0 # keep track of number of natural blackjacks
-
+env = BlackJackEnviornment.BlackjackEnv()
 for i in range (totalPlays):
     done = False   #re-initialize to false each iteration for each play
 
