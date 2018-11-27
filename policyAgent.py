@@ -1,6 +1,6 @@
 import BlackJackEnviornment
 
-totalPlays = 100000
+totalPlays = 10
 wins = 0 # keep track of number of wins
 losses = 0 # keep track of number of losses
 ties = 0 # keep track of number of ties
@@ -13,22 +13,27 @@ for i in range (totalPlays):
     iteration = 1  # used to determine natural blackJack
 
     while(done is False):
+        env.set_players_hand(6,5)
         sum,dealers,usableAce = env._get_obs()
 
         if not usableAce:
             if sum<=11 or (dealers>7 and sum<=16):
                 move = env.step(1)
                 action = 1
+                # print ('a')
             else:
                 move = env.step(0)
                 action = 0
+                # print ('b')
         else:       #Doesnt have usable ace
             if sum<=18:
                 move=env.step(1)
                 action = 1
+                # print ('c')
             else:
                 move=env.step(0)
                 action = 0
+                # print ('d')
 
 
         if (move[2] == True):  # move[2] is done value

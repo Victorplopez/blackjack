@@ -27,7 +27,9 @@ def sum_hand(hand):  # Return current hand total
 
 
 def is_bust(hand):  # Is this hand a bust?
+    print( sum_hand(hand))
     return sum_hand(hand) > 21
+
 
 
 def score(hand):  # What is the score of this hand (0 if bust)
@@ -74,7 +76,7 @@ class BlackjackEnv:
         self.action_space=[]
         self.observation_space = (0,0,0)
         # self.seed()
-        self.actions = [1, 2, 3]
+        self.actions = [0,1]
         self.currentCash = 50
 
         # Flag to payout 1.5 on a "natural" blackjack win, like casino rules
@@ -89,7 +91,7 @@ class BlackjackEnv:
 
     def step(self, action):
         # assert self.action_space.contains(action)
-        if action:  # hit: add a card to players hand and return
+        if action == 1:  # hit: add a card to players hand and return
             self.player.append(draw_card())
             if is_bust(self.player):
                 done = True
@@ -114,7 +116,10 @@ class BlackjackEnv:
         self.player = draw_hand()
         return self._get_obs()
 
-    def set_hand(self, value):
-        self.player.clear()
-        self.player.append(value)
+    def set_players_hand(self, card1,card2):
+        self.player=[card1,card2]
+        return is_bust(self.player)
+
+    def set_dealers_hand(self, card1,card2):
+        self.dealer = [card1,card2]
         return is_bust(self.player)
