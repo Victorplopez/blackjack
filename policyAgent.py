@@ -12,8 +12,8 @@ for i in range (totalPlays):
 
     iteration = 1  # used to determine natural blackJack
 
+    env.set_players_hand(6,5)
     while(done is False):
-        env.set_players_hand(6,5)
         sum,dealers,usableAce = env._get_obs()
 
         if not usableAce:
@@ -39,11 +39,11 @@ for i in range (totalPlays):
         if (move[2] == True):  # move[2] is done value
             done = True
             if(move[1] == 1):  # move[1] hold the reward value
-            	wins += 1.00  # if > 0 then agent has won
+                wins += 1.00  # if > 0 then agent has won
             elif(move[1] == 0):
-				ties += 1.00
+                ties += 1.00
             else:
-				losses += 1.00
+                losses += 1.00
 
         if (iteration == 1 and action == 0 and move[0][0] == 21):
             naturals += 1.00

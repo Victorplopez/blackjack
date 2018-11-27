@@ -27,7 +27,6 @@ def sum_hand(hand):  # Return current hand total
 
 
 def is_bust(hand):  # Is this hand a bust?
-    print( sum_hand(hand))
     return sum_hand(hand) > 21
 
 
