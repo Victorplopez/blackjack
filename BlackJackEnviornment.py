@@ -7,6 +7,7 @@ def cmp(a, b):
 # 1 = Ace, 2-10 = Number cards, Jack/Queen/King = 10
 deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
+deck52 = range (52)
 
 def draw_card():
     return int(random.choice(deck))
@@ -116,6 +117,18 @@ class BlackjackEnv:
 
     def _get_obs(self):
         return (sum_hand(self.player), self.dealer[0], usable_ace(self.player),self.currentCash)
+
+    def get_players_hand(self):
+        return self.player
+
+    def get_dealers_hand(self):
+        return self.dealer
+
+    def get_players_sum(self):
+        return sum_hand(self.player)
+
+    def get_dealers_sum(self):
+        return sum_hand(self.dealer)
 
     def reset(self):
         self.dealer = draw_hand()
