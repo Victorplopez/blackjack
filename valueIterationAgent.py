@@ -5,7 +5,7 @@ import BlackJackEnviornment
 
 env = BlackJackEnviornment.BlackjackEnv()
 
-totalPlays = 5
+totalPlays = 10
 wins = 0  # keep track of number of wins
 losses = 0  # keep track of number of losses
 ties = 0  # keep track of number of ties
@@ -44,16 +44,33 @@ def valueIteration(state, action):
 
     value = 0 #initialize
 
-    if (action == 0):
-        reward = rewardMatrix[sum - 4][dealers - 1]
-        probability = 1.0
+    if (action == 0):                               #action = stay
+        reward = rewardMatrix[sum - 4][dealers - 1] #lookup reward from matrix
+        probability = 1.0                           #probability to remain in same state choosing stay action
         value = probability * reward
-    else:
-        for i in range(10):
-            if sum+(i+1) > 21:
-                value = value + 0
+    else:                                           #action = hit
+        for i in range(10):                         #check possible card values 1 -> 10
+            if (sum+(i+1)) > 21:                    #bust adds no value
+                value += 0
             else:
-                value += valueIteration((sum+(i+1),dealers), 0) * probabilityArray[i] # +1 to offset index
+                stay = valueIteration((sum+(i+1),dealers), 0) * probabilityArray[i] # +1 to offset index
+                hit = valueIteration((sum+(i+1),dealers), 1) * probabilityArray[i] # +1 to offset index
+                if (stay >= hit):
+                    value += stay
+                else:
+                    value += hit
+
+            if (i == 1):                             #Handles case where ace is also valued at 11
+                ace = 11
+                if (sum + (ace + 1)) > 21:
+                    value = value + 0
+                else:
+                    stay = valueIteration((sum + (ace + 1), dealers), 0) * probabilityArray[i]  # +1 to offset index
+                    hit = valueIteration((sum + (ace + 1), dealers), 1) * probabilityArray[i]  # +1 to offset index
+                    if (stay >= hit):
+                        value += stay
+                    else:
+                        value += hit
     return value
 
 
@@ -62,16 +79,18 @@ for i in range(totalPlays):
 
     iteration = 1  # used to determine natural blackJack
     env.reset()
-    cash =
 
     while (done is False):
         sum, dealers, usableAce = env._get_obs()
         state = (sum, dealers)
 
+        print "Agent state: ", state
+
         stay = valueIteration(state, 0)
         hit = valueIteration(state, 1)
 
-        print "stay: ", stay, " hit", hit
+        print "stay(0):",stay
+        print "hit(1): ",hit
 
         if (stay >= hit):
             action = 0
@@ -79,24 +98,30 @@ for i in range(totalPlays):
         else:
             action = 1
 
-        print "state: ", state
-        print "action: ", action
+        print "action taken: ", action
 
         realMove = env.step(action)
 
         if (realMove[2] == True):  # move[2] is done value
             done = True
-            if (realMove[1] == 1):  # move[1] hold the reward value
+            dealersHand = env.get_dealers_hand()
+            dealersHandSum = env.get_dealers_hand_sum()
+            print "Dealer's Hand: ", dealersHand, " = ", dealersHandSum
+            if (realMove[1] == 1):  # move[1] holds the reward value
                 wins += 1.00  # if > 0 then agent has won
+                print "End Result = win :-)"
             elif (realMove[1] == 0):
                 ties += 1.00
+                print "End Result = tie :-|"
             else:
                 losses += 1.00
+                print "End Result = loss :-("
 
             if (iteration == 1 and action == 0 and realMove[0][0] == 21):
                 naturals += 1.00
 
             iteration += 1
+        print "----------------------------------------------"
 
 
 winRate = (wins / totalPlays) * 100

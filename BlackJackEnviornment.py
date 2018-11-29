@@ -122,3 +122,9 @@ class BlackjackEnv:
     def set_dealers_hand(self, card1,card2):
         self.dealer = [card1,card2]
         return is_bust(self.player)
+
+    def get_dealers_hand(self):
+        return self.dealer
+
+    def get_dealers_hand_sum(self):
+        return sum(self.dealer)
