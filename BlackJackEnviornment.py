@@ -76,7 +76,7 @@ class BlackjackEnv:
         self.observation_space = (0,0,0)
         # self.seed()
         self.actions = [0,1]
-        self.currentCash = 50
+        self.currentCash = 100
 
         # Flag to payout 1.5 on a "natural" blackjack win, like casino rules
         # Ref: http://www.bicyclecards.com/how-to-play/blackjack/
@@ -95,6 +95,8 @@ class BlackjackEnv:
             if is_bust(self.player):
                 done = True
                 reward = -1
+                self.currentCash -= 5
+
             else:
                 done = False
                 reward = 0
@@ -105,10 +107,15 @@ class BlackjackEnv:
             reward = cmp(score(self.player), score(self.dealer))
             if self.natural and is_natural(self.player) and reward == 1:
                 reward = 1.5
+            if reward >= 1:
+                self.currentCash += 5
+            if reward < 0:
+                self.currentCash -= 5
+
         return self._get_obs(), reward, done, {}
 
     def _get_obs(self):
-        return (sum_hand(self.player), self.dealer[0], usable_ace(self.player))
+        return (sum_hand(self.player), self.dealer[0], usable_ace(self.player),self.currentCash)
 
     def reset(self):
         self.dealer = draw_hand()
@@ -122,3 +129,6 @@ class BlackjackEnv:
     def set_dealers_hand(self, card1,card2):
         self.dealer = [card1,card2]
         return is_bust(self.player)
+
+    def get_current_cash(self):
+        return self.currentCash
