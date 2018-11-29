@@ -1,21 +1,54 @@
-import gym
+import BlackJackEnviornment
+import random
 
-env = gym.make('Blackjack-v0')
+totalPlays = 10000
+wins = 0 # keep track of number of wins
+losses = 0 # keep track of number of losses
+ties = 0 # keep track of number of ties
+naturals = 0 # keep track of number of natural blackjacks
+naturals = 0 # keep track of number of natural blackjacks
+env = BlackJackEnviornment.BlackjackEnv()
+for i in range (totalPlays):
+    done = False   #re-initialize to false each iteration for each play
 
-env.seed(0)
-env.reset()
-obs1 = env._get_obs()
+    iteration = 1  # used to determine natural blackJack
+    randomCard = random.randint(1,10)
 
-print "obs1: ", obs1
-print "step1", env.step(1)
-print "step2", env.step(1)
+    env.set_dealers_hand(1, randomCard)
+    env.set_players_hand(10,1)
+    while(done is False):
+        sum,dealers,usableAce = env._get_obs()
 
-print "----------------------"
+        move = env.step(0) #stay each time
+        action = 0
 
-env.seed(0)
-env.reset()
-obs2 = env._get_obs()
+        if (move[2] == True):  # move[2] is done value
+            done = True
+            if(move[1] == 1):  # move[1] hold the reward value
+                wins += 1.00  # if > 0 then agent has won
+            elif(move[1] == 0):
+                ties += 1.00
+            else:
+                losses += 1.00
 
-print "obs2: ", obs2
-print "step1", env.step(1)
-print "step2", env.step(1)
+        if (iteration == 1 and action == 0 and move[0][0] == 21):
+            naturals += 1.00
+
+        env.reset()
+        iteration = 1  # reset iteration for each hand
+
+winRate = (wins/totalPlays) * 100
+tieRate = (ties/totalPlays) * 100
+lossRate = (losses/totalPlays) * 100
+winPlusTieRate = winRate + tieRate
+
+print "Total Plays: ", totalPlays
+print "-------------"
+print "Wins: ", wins, "| Win Rate: ", winRate
+print "Natural BlackJacks: ", naturals
+print " "
+print "Ties: ", ties, "| Tie Rate: ", tieRate
+print " "
+print "Losses: ", losses, "| Loss Rate: ", lossRate
+print " "
+print "Win + Tie Rate: ", winPlusTieRate/100
