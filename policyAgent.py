@@ -13,11 +13,12 @@ for i in range (totalPlays):
     iteration=1
     done = False   #re-initialize to false each iteration for each play
 
+    ####This is used to stop the game when money runs out
     # if env.get_current_cash() <= 0:
     #     done = True
 
     env.reset()
-    # env.set_players_hand(6,5)
+
     while(done is False):
         plays = i  # used to determine natural blackJack
         sum,dealers,usableAce,cash = env._get_obs()
