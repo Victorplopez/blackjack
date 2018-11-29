@@ -72,10 +72,10 @@ class BlackjackEnv:
     """
 
     def __init__(self, natural=False):
-        self.action_space=[]
-        self.observation_space = (0,0,0)
+        self.action_space = []
+        self.observation_space = (0, 0, 0)
         # self.seed()
-        self.actions = [0,1]
+        self.actions = [0, 1]
         self.currentCash = 50
 
         # Flag to payout 1.5 on a "natural" blackjack win, like casino rules
@@ -83,6 +83,7 @@ class BlackjackEnv:
         self.natural = natural
         # Start the first game
         self.reset()
+
     #
     # def seed(self, seed=None):
     #     self.np_random, seed = seeding.np_random(seed)
@@ -122,3 +123,6 @@ class BlackjackEnv:
     def set_dealers_hand(self, card1,card2):
         self.dealer = [card1,card2]
         return is_bust(self.player)
+
+    def addNewQ(self, obs):
+        self.Q[obs] = dict((i, 0.0) for i in self.actions)

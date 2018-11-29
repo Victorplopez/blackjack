@@ -5,8 +5,8 @@ env = gym.make('Blackjack-v0')
 
 agent = Agent(env=env, epsilon=1.0, alpha=0.5, gamma=0.2, num_episodes_to_train=800)
 
-num_rounds = 1000  # Payout calculated over num_rounds
-num_samples = 100  # num_rounds simulated over num_samples
+num_rounds = 1  # Payout calculated over num_rounds
+num_samples = 1  # num_rounds simulated over num_samples
 
 payouts = []
 
@@ -27,6 +27,9 @@ while round <= num_rounds * num_samples:
 num_observations = 0
 list_players_hand = range(1, 22)
 list_dealers_upcard = range(1, 11)
+
+print(agent.valid_actions)
+print(agent.Q)
 
 
 def readable_action(observation, agent):
