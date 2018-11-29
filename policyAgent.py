@@ -1,6 +1,6 @@
 import BlackJackEnviornment
 
-totalPlays = 10
+totalPlays = 10000
 wins = 0 # keep track of number of wins
 losses = 0 # keep track of number of losses
 ties = 0 # keep track of number of ties
