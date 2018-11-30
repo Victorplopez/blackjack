@@ -3,10 +3,10 @@ import random
 
 env = BlackJackEnviornment.BlackjackEnv()
 
-totalPlays = initialPlayCount = 100
+totalPlays = initialPlayCount = 100000
 epsilon = 1.0  # Starting with a high epsilon and gradually decrementing
 alpha = 0.5
-gamma = 1.0  # aka Discount. No need for gamma in our environment but we are using it to match formulas
+gamma = 0.05  # aka Discount. No need for gamma in our environment but we are using it to match formulas
 
 Q = dict()  # Creates a dictionary of tuples
 
@@ -32,86 +32,89 @@ def readable_action(observ):
 
 def addNewQ(observ):
     if observ not in Q:
-        Q[observ] = dict((choose, 0.0) for choose in env.actions)
+        Q[observ] = dict((i, 0.0) for i in range(2))
 
 def maxQ(observ):
     addNewQ(observ)
     return max(Q[observ].values())
 
+def decrementEpsilon():
+    global epsilon, alpha  # because Python is dumb
+
+    if(totalPlays > 0):
+        small_decrement = (0.1 * epsilon) / (0.3 * totalPlays)  # reduces epsilon slowly
+        big_decrement = (0.8 * epsilon) / (0.4 * totalPlays)  # reduces epilon faster
+
+        if totalPlays > 0.7 * totalPlays:
+            epsilon -= small_decrement
+        elif totalPlays > 0.3 * totalPlays:
+            epsilon -= big_decrement
+        elif totalPlays > 0:
+            epsilon -= small_decrement
+        else:
+            epsilon = 0.0
+            alpha = 0.0
+
 def chooseAction(observ):
     global epsilon
+
+    addNewQ(observ)
+
     if random.random() > epsilon:
-        for i in range(2):
-            if Q[observ][i] == maxQ(observ):
-                acction = 0
+        if (Q[observ][0] < Q[observ][1]):
+            action = 1
+
+        elif (Q[observ][0] > Q[observ][1]):
+            action = 0
+
+        else:
+            action = random.randint(0, 1)
+
     else:
-        acction = random.randint(0, 1)
+        action = random.randint(0, 1)
 
-    #decrementEpsilon()
+    decrementEpsilon()
 
-    return acction
+    return action
 
-def decrementEpsilon():
-
-    global epsilon, alpha  # because Python is dumb
-    epsilon = totalPlays * 0.01
-
-
-    """
-    if totalPlays > 90:
-        epsilon = 1.0
-    elif (totalPlays <= 90) and (totalPlays > 80):
-        epsilon = 0.9
-    elif (totalPlays <= 80) and (totalPlays > 70):
-        epsilon = 0.8
-    elif (totalPlays <= 70) and (totalPlays > 60):
-        epsilon = 0.7
-    elif (totalPlays <= 60) and (totalPlays > 50):
-        epsilon = 0.6
-    elif (totalPlays <= 50) and (totalPlays > 40):
-        epsilon = 0.5
-    else:
-        epsilon = 0.0
-
-    if totalPlays > 0.9 * initialPlayCount:
-         epsilon = 1.0
-    elif (totalPlays < 0.9 * initialPlayCount) and (totalPlays > 0.7 * initialPlayCount):
-        epsilon -= 0.05
-    elif (totalPlays < 0.7 * initialPlayCount) and (totalPlays > 0.4 * initialPlayCount):
-        epsilon -= 0.1
-    else:
-        epsilon = 0.0
-        alpha = 0.0
-"""
-
+# def chooseAction(observ):
+#     addNewQ(observ)
+#
+#     if (Q[observ][1] > Q[observ][0]):
+#         action = 1
+#
+#     else:
+#         action = 0
+#
+#     return action
 
 
 while totalPlays > 0:
     observ = env.reset()
-    action = chooseAction(observ)
-    move = env.step(action)
-    #decrementEpsilon()
-    observPrime = move[0]
-    reward = move[1]
-    addNewQ(observ)
-    """
-    self.Q[observation][action] += self.alpha * (reward
-                                                 + (self.gamma * self.get_maxQ(next_observation))
-                                                 - self.Q[observation][action])
-    """
+    done = False
 
-    Q[observ][action] += alpha * (reward + (gamma * maxQ(observPrime)) - Q[observ][action])
+    while done is False:
+        action = chooseAction(observ)
+        move = env.step(action)
+        observPrime = move[0]
+        reward = move[1]
+        done = move[2]
+        Q[observ][action] += alpha * (reward + (gamma * maxQ(observPrime)) - Q[observ][action])
+        observ = observPrime
+        """
+        self.Q[observation][action] += self.alpha * (reward
+                                                     + (self.gamma * self.get_maxQ(next_observation))
+                                                     - self.Q[observation][action])
+        """
 
-    #Q[observ][action] *= (1 - alpha) + alpha * (reward + (gamma * maxQ(observPrime))- Q[observ][action])
-    # (1-alpha) * Q(s,a) + alpha(Reward + discount * next observation)
+        #Q[observ][action] *= (1 - alpha) + alpha * (reward + (gamma * maxQ(observPrime))- Q[observ][action])
+        # (1-alpha) * Q(s,a) + alpha(Reward + discount * next observation)
+
     totalPlays -= 1
-    print(epsilon)
-    print(totalPlays)
-
 
 #print(Q)
 
-'''
+
 # Print headers to give more information about output
 print("{:^10} | {:^50} | {:^50}".format("Player's", "Dealer's upcard when ace is not usable",
                                         "Dealer's upcard when ace is usable"))
@@ -129,6 +132,6 @@ for players_hand in range(1, 22):
 
     print("{:>10} | {} | {}".format(players_hand, actions_not_usable, actions_usable))
 
-'''
+
 
 
