@@ -89,8 +89,8 @@ def decrementEpsilon():
 while totalPlays > 0:
     observ = env.reset()
     action = chooseAction(observ)
-    #decrementEpsilon()
     move = env.step(action)
+    #decrementEpsilon()
     observPrime = move[0]
     reward = move[1]
     addNewQ(observ)
@@ -103,7 +103,6 @@ while totalPlays > 0:
     Q[observ][action] += alpha * (reward + (gamma * maxQ(observPrime)) - Q[observ][action])
 
     #Q[observ][action] *= (1 - alpha) + alpha * (reward + (gamma * maxQ(observPrime))- Q[observ][action])
-
     # (1-alpha) * Q(s,a) + alpha(Reward + discount * next observation)
     totalPlays -= 1
     print(epsilon)
@@ -112,7 +111,7 @@ while totalPlays > 0:
 
 #print(Q)
 
-
+'''
 # Print headers to give more information about output
 print("{:^10} | {:^50} | {:^50}".format("Player's", "Dealer's upcard when ace is not usable",
                                         "Dealer's upcard when ace is usable"))
@@ -130,6 +129,6 @@ for players_hand in range(1, 22):
 
     print("{:>10} | {} | {}".format(players_hand, actions_not_usable, actions_usable))
 
-
+'''
 
 
