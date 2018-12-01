@@ -15,6 +15,30 @@ losses = 0  # keep track of number of losses
 ties = 0  # keep track of number of ties
 naturals = 0  # keep track of number of natural blackjacks
 
+#usable ace feature
+def feature1(observ):
+    _, _, usableAce = observ
+
+    if(usableAce):
+        feature = 1.25
+    else:
+        feature = 1.00
+
+    return feature
+
+#ideal sum feature
+def feature2(observ):
+    sum, dealersCard, usableAce = observ
+
+    if(sum < 12):
+        feature = 0.75
+    elif(sum > 11 and sum < 17):
+        feature = 1.00
+    else:
+        feature = 1.25
+
+    return feature
+
 def displayActions(observ):
     if observ not in Q:
         displayAction = "-"
@@ -22,18 +46,21 @@ def displayActions(observ):
         displayAction = "H" if chooseAction(observ) else "S"
     return displayAction
 
+
 def addNewQValue(observ):
     if observ not in Q:
         Q[observ] = dict((i, 0.0) for i in range(2))
+
 
 def maxQValue(observ):
     addNewQValue(observ)
     return max(Q[observ].values())
 
+
 def decreaseEpsilon():
     global epsilon, alpha
 
-    if(totalPlays > 0):
+    if (totalPlays > 0):
         smallDecrease = (0.1 * epsilon) / (0.5 * totalPlays)  # reduce epsilon slowly
         bigDecrease = (0.8 * epsilon) / (0.3 * totalPlays)  # reduce epsilon faster
 
@@ -46,6 +73,7 @@ def decreaseEpsilon():
         else:
             epsilon = 0.0
             alpha = 0.0
+
 
 def chooseAction(observ):
     global epsilon
@@ -69,10 +97,13 @@ def chooseAction(observ):
 
     return action
 
-#sampling iterations
+
+# sampling iterations
 while totalPlays > 0:
     observ = env.reset()
     done = False
+    weight1 = 0.0  # weight initialized to 0.0
+    weight2 = 0.0
 
     while done is False:
         action = chooseAction(observ)
@@ -80,10 +111,15 @@ while totalPlays > 0:
         observPrime = move[0]
         reward = move[1]
         done = move[2]
-        Q[observ][action] += alpha * (reward + (gamma * maxQValue(observPrime)) - Q[observ][action])
+        difference = (reward + (gamma * maxQValue(observPrime)) - Q[observ][action])
+        weight1 += alpha * (difference) * feature1(observ)
+        weight2 += alpha * (difference) * feature2(observ)
+        Q[observ][action] += (weight1 * feature1(observ)) + (weight2 * feature2(observ))
         observ = observPrime
 
     totalPlays -= 1
+
+print("Q's: "+ str(Q))
 
 # Print headers to give more information about output
 print("{:^10} | {:^50} | {:^50}".format("Player's", "Dealer's upcard when ace is not usable",
@@ -102,8 +138,8 @@ for players_hand in range(1, 22):
 
     print("{:>10} | {} | {}".format(players_hand, actions_not_usable, actions_usable))
 
-#iterations after obtaining sample data
-totalPlays = 1000    #reset totalPlays for optimal simulation
+# iterations after obtaining sample data
+totalPlays = 1000  # reset totalPlays for optimal simulation
 while totalPlays > 0:
     observ = env.reset()
     done = False
@@ -134,15 +170,15 @@ while totalPlays > 0:
 
     totalPlays -= 1
 
-winRate = (wins/initialPlayCount) * 100
-tieRate = (ties/initialPlayCount) * 100
-lossRate = (losses/initialPlayCount) * 100
+winRate = (wins / initialPlayCount) * 100
+tieRate = (ties / initialPlayCount) * 100
+lossRate = (losses / initialPlayCount) * 100
 
-print("Total Plays: "+ str(totalPlays))
+print("Total Plays: " + str(totalPlays))
 print("-------------")
-print("Wins: "+ str(wins)+ "| Win Rate: "+ str(winRate))
-print("Natural BlackJacks: "+ str(naturals))
+print("Wins: " + str(wins) + "| Win Rate: " + str(winRate))
+print("Natural BlackJacks: " + str(naturals))
 print(" ")
-print("Ties: "+ str(ties)+ "| Tie Rate: "+ str(tieRate))
+print("Ties: " + str(ties) + "| Tie Rate: " + str(tieRate))
 print(" ")
-print("Losses: "+ str(losses)+ "| Loss Rate: "+ str(lossRate))
+print("Losses: " + str(losses) + "| Loss Rate: " + str(lossRate))
