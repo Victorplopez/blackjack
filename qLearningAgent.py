@@ -103,7 +103,7 @@ for players_hand in range(1, 22):
     print("{:>10} | {} | {}".format(players_hand, actions_not_usable, actions_usable))
 
 #iterations after obtaining sample data
-totalPlays = initialPlayCount     #reset totalPlays for optimal simulation
+totalPlays = 1000    #reset totalPlays for optimal simulation
 while totalPlays > 0:
     observ = env.reset()
     done = False
