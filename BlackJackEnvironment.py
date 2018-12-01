@@ -123,6 +123,3 @@ class BlackjackEnv:
     def set_dealers_hand(self, card1,card2):
         self.dealer = [card1,card2]
         return is_bust(self.player)
-
-    def addNewQ(self, obs):
-        self.Q[obs] = dict((i, 0.0) for i in self.actions)
