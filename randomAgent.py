@@ -1,7 +1,7 @@
-import BlackJackEnvironment
+import blackJackEnvironment
 import random
 
-env = BlackJackEnvironment.BlackjackEnv()
+env = blackJackEnvironment.BlackjackEnv()
 
 totalPlays = 1000
 wins = 0 # keep track of number of wins

@@ -1,4 +1,4 @@
-import BlackJackEnvironment
+import blackJackEnvironment
 import random
 
 totalPlays = 1000
@@ -7,7 +7,7 @@ losses = 0 # keep track of number of losses
 ties = 0 # keep track of number of ties
 naturals = 0 # keep track of number of natural blackjacks
 naturals = 0 # keep track of number of natural blackjacks
-env = BlackJackEnvironment.BlackjackEnv()
+env = blackJackEnvironment.BlackjackEnv()
 for i in range (totalPlays):
     done = False   #re-initialize to false each iteration for each play
 

@@ -1,9 +1,9 @@
 # odds to receive 1 -> 9 in deck = 1/13 or 7.692307692% in our simple variation
 # odds to receive 10 in deck = 4/13 or 30.769230769%
 
-import BlackJackEnvironment
+import blackJackEnvironment
 
-env = BlackJackEnvironment.BlackjackEnv()
+env = blackJackEnvironment.BlackjackEnv()
 
 totalPlays = 1000
 wins = 0  # keep track of number of wins

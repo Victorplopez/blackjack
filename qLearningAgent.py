@@ -1,7 +1,7 @@
-import BlackJackEnvironment
+import blackJackEnvironment
 import random
 
-env = BlackJackEnvironment.BlackjackEnv()
+env = blackJackEnvironment.BlackjackEnv()
 
 totalPlays = initialPlayCount = 100000
 epsilon = 1.0  # Starting with a high epsilon and gradually decreasing
