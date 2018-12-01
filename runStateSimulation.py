@@ -1,13 +1,13 @@
-import BlackJackEnviornment
+import BlackJackEnvironment
 import random
 
-totalPlays = 10000
+totalPlays = 1000
 wins = 0 # keep track of number of wins
 losses = 0 # keep track of number of losses
 ties = 0 # keep track of number of ties
 naturals = 0 # keep track of number of natural blackjacks
 naturals = 0 # keep track of number of natural blackjacks
-env = BlackJackEnviornment.BlackjackEnv()
+env = BlackJackEnvironment.BlackjackEnv()
 for i in range (totalPlays):
     done = False   #re-initialize to false each iteration for each play
 
@@ -42,13 +42,12 @@ tieRate = (ties/totalPlays) * 100
 lossRate = (losses/totalPlays) * 100
 winPlusTieRate = winRate + tieRate
 
-print "Total Plays: ", totalPlays
-print "-------------"
-print "Wins: ", wins, "| Win Rate: ", winRate
-print "Natural BlackJacks: ", naturals
-print " "
-print "Ties: ", ties, "| Tie Rate: ", tieRate
-print " "
-print "Losses: ", losses, "| Loss Rate: ", lossRate
-print " "
-print "Win + Tie Rate: ", winPlusTieRate/100
+print("Total Plays: "+str(totalPlays))
+print("-------------")
+print("Wins: "+ str(wins)+ "| Win Rate: "+ str(winRate))
+print("Natural BlackJacks: "+ str(naturals))
+print(" ")
+print("Ties: "+ str(ties)+ "| Tie Rate: "+ str(tieRate))
+print(" ")
+print("Losses: "+ str(losses)+ "| Loss Rate: "+ str(lossRate))
+print("Win + Tie Rate: "+ str(winPlusTieRate/100))

@@ -1,9 +1,9 @@
 # odds to receive 1 -> 9 in deck = 1/13 or 7.692307692% in our simple variation
 # odds to receive 10 in deck = 4/13 or 30.769230769%
 
-import BlackJackEnviornment
+import BlackJackEnvironment
 
-env = BlackJackEnviornment.BlackjackEnv()
+env = BlackJackEnvironment.BlackjackEnv()
 
 totalPlays = 1000
 wins = 0  # keep track of number of wins
@@ -114,11 +114,11 @@ winRate = (wins / totalPlays) * 100
 tieRate = (ties / totalPlays) * 100
 lossRate = (losses / totalPlays) * 100
 
-print "Total Plays: ", totalPlays
-print "-------------"
-print "Wins: ", wins, "| Win Rate: ", winRate
-print "Natural BlackJacks: ", naturals
-print " "
-print "Ties: ", ties, "| Tie Rate: ", tieRate
-print " "
-print "Losses: ", losses, "| Loss Rate: ", lossRate
+print("Total Plays: "+str(totalPlays))
+print("-------------")
+print("Wins: "+ str(wins)+ "| Win Rate: "+ str(winRate))
+print("Natural BlackJacks: "+ str(naturals))
+print(" ")
+print("Ties: "+ str(ties)+ "| Tie Rate: "+ str(tieRate))
+print(" ")
+print("Losses: "+ str(losses)+ "| Loss Rate: "+ str(lossRate))

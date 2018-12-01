@@ -1,9 +1,9 @@
-import gym
+import BlackJackEnvironment
 import random
 
-env = gym.make('Blackjack-v0')
+env = BlackJackEnvironment.BlackjackEnv()
 
-totalPlays = 10000
+totalPlays = 1000
 wins = 0 # keep track of number of wins
 losses = 0 # keep track of number of losses
 ties = 0 # keep track of number of ties
@@ -43,11 +43,11 @@ winRate = (wins/totalPlays) * 100
 tieRate = (ties/totalPlays) * 100
 lossRate = (losses/totalPlays) * 100
 
-print "Total Plays: ", totalPlays
-print "-------------"
-print "Wins: ", wins, "| Win Rate: ", winRate
-print "Natural BlackJacks: ", naturals
-print " "
-print "Ties: ", ties, "| Tie Rate: ", tieRate
-print " "
-print "Losses: ", losses, "| Loss Rate: ", lossRate
+print("Total Plays: "+str(totalPlays))
+print("-------------")
+print("Wins: "+ str(wins)+ "| Win Rate: "+ str(winRate))
+print("Natural BlackJacks: "+ str(naturals))
+print(" ")
+print("Ties: "+ str(ties)+ "| Tie Rate: "+ str(tieRate))
+print(" ")
+print("Losses: "+ str(losses)+ "| Loss Rate: "+ str(lossRate))
