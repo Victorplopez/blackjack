@@ -7,6 +7,7 @@ def cmp(a, b):
 # 1 = Ace, 2-10 = Number cards, Jack/Queen/King = 10
 deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
+deck52 = range (52)
 
 def draw_card():
     return int(random.choice(deck))
@@ -76,7 +77,7 @@ class BlackjackEnv:
         self.observation_space = (0,0,0)
         # self.seed()
         self.actions = [0,1]
-        self.currentCash = 50
+        self.currentCash = 100
 
         # Flag to payout 1.5 on a "natural" blackjack win, like casino rules
         # Ref: http://www.bicyclecards.com/how-to-play/blackjack/
@@ -95,6 +96,8 @@ class BlackjackEnv:
             if is_bust(self.player):
                 done = True
                 reward = -1
+                self.currentCash -= 5
+
             else:
                 done = False
                 reward = 0
@@ -105,10 +108,24 @@ class BlackjackEnv:
             reward = cmp(score(self.player), score(self.dealer))
             if self.natural and is_natural(self.player) and reward == 1:
                 reward = 1.5
+            if reward >= 1:
+                self.currentCash += 5
+            if reward < 0:
+                self.currentCash -= 5
+
         return self._get_obs(), reward, done, {}
 
     def _get_obs(self):
-        return (sum_hand(self.player), self.dealer[0], usable_ace(self.player))
+        return (sum_hand(self.player), self.dealer[0], usable_ace(self.player),self.currentCash)
+
+    def get_players_hand(self):
+        return self.player
+
+    def get_dealers_hand(self):
+        return self.dealer
+
+    def get_players_sum(self):
+        return sum_hand(self.player)
 
     def reset(self):
         self.dealer = draw_hand()
@@ -123,8 +140,8 @@ class BlackjackEnv:
         self.dealer = [card1,card2]
         return is_bust(self.player)
 
-    def get_dealers_hand(self):
-        return self.dealer
-
     def get_dealers_hand_sum(self):
         return sum(self.dealer)
+
+    def get_current_cash(self):
+        return self.currentCash
