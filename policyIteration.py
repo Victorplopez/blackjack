@@ -3,12 +3,12 @@ import BlackJackEnviornment
 lookupTable = {}
 
 
-env=BlackJackEnviornment.BlackjackEnv()
+env = BlackJackEnviornment.BlackjackEnv()
 
 for playerCard1 in range (10):
     playerCard1
     for playerCard2 in range (10):
-        if playerCard1>=playerCard2:
+        if playerCard1 >= playerCard2:
             for dealerCard in range (10):
                 env.set_dealers_hand(dealerCard,BlackJackEnviornment.draw_card())
                 env.set_players_hand(playerCard1,playerCard2)
@@ -55,4 +55,4 @@ for playerCard1 in range (10):
                         else:
                             lookupTable[observation]=0
 
-print lookupTable.items()
+print(lookupTable.items())

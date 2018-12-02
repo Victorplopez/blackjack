@@ -41,7 +41,7 @@ def playRound():
             print("Your Hand Beat The Dealers!")
 
     elif(reward == 0):
-        print ("It's a tie\nAt least you didn't loose and money!")
+        print ("It's a tie\nAt least you didn't lose any money!")
     else:
         print ("You Lost")
         if playersSum>21:
