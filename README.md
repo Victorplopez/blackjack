@@ -1,3 +1,5 @@
+<b>To run files in directory, simply open terminal and type: python fileName.py</b>
+
 <b>blackJackEnvironment.py</b>: Modified Open AI Gym Environment with additional functionality<br>
 <b>randomAgent.py</b>: Agent randomly hits or stays<br>
 <b>policyAgent.py</b>: Agent chooses action based on set of rules<br>
