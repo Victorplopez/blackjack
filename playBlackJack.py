@@ -83,7 +83,3 @@ while (not donePlaying):
     if answer == 0 or currentCash < 0:
         print("You are done, Thanks for playing! :)")
         donePlaying = True
-
-
-
-

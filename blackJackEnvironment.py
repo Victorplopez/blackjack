@@ -12,10 +12,8 @@ deck52 = range(52)
 def draw_card():
     return int(random.choice(deck))
 
-
 def draw_hand():
     return [draw_card(), draw_card()]
-
 
 def usable_ace(hand):  # Does this hand have a usable ace?
     return 1 in hand and sum(hand) + 10 <= 21

@@ -172,7 +172,7 @@ winRate = (wins / initialPlayCount) * 100
 tieRate = (ties / initialPlayCount) * 100
 lossRate = (losses / initialPlayCount) * 100
 
-print("Total Plays: " + str(initialPlayCount))
+print("Total Plays: " + str(1000))
 print("-------------")
 print("Wins: " + str(wins) + "| Win Rate: " + str(winRate))
 print("Natural BlackJacks: " + str(naturals))

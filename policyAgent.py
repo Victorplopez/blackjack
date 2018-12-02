@@ -63,8 +63,7 @@ for i in range (totalPlays):
 winRate = (wins/plays) * 100
 tieRate = (ties/plays) * 100
 lossRate = (losses/plays) * 100
-print(env.get_current_cash())
-print("Total Plays: "+ str(plays))
+print("Total Plays: "+ str(totalPlays))
 print("-------------")
 print("Wins: "+ str(wins)+ "| Win Rate: "+ str(winRate))
 print("Natural BlackJacks: "+ str(naturals))
@@ -72,3 +71,4 @@ print(" ")
 print("Ties: "+ str(ties)+ "| Tie Rate: "+ str(tieRate))
 print(" ")
 print("Losses: "+ str(losses)+ "| Loss Rate: "+ str(lossRate))
+print("Cash Result: "+str(env.get_current_cash()))
