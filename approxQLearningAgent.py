@@ -119,8 +119,6 @@ while totalPlays > 0:
 
     totalPlays -= 1
 
-print("Q's: "+ str(Q))
-
 # Print headers to give more information about output
 print("{:^10} | {:^50} | {:^50}".format("Player's", "Dealer's upcard when ace is not usable",
                                         "Dealer's upcard when ace is usable"))
@@ -174,7 +172,7 @@ winRate = (wins / initialPlayCount) * 100
 tieRate = (ties / initialPlayCount) * 100
 lossRate = (losses / initialPlayCount) * 100
 
-print("Total Plays: " + str(totalPlays))
+print("Total Plays: " + str(initialPlayCount))
 print("-------------")
 print("Wins: " + str(wins) + "| Win Rate: " + str(winRate))
 print("Natural BlackJacks: " + str(naturals))

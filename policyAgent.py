@@ -1,6 +1,6 @@
-import BlackJackEnviornment
+import blackJackEnvironment
 
-totalPlays = 99999
+totalPlays = 1000
 
 wins = 0 # keep track of number of wins
 losses = 0 # keep track of number of losses
@@ -8,7 +8,7 @@ ties = 0 # keep track of number of ties
 naturals = 0 # keep track of number of natural blackjacks
 naturals = 0 # keep track of number of natural blackjacks
 
-env = BlackJackEnviornment.BlackjackEnv()
+env = blackJackEnvironment.BlackjackEnv()
 for i in range (totalPlays):
     iteration=1
     done = False   #re-initialize to false each iteration for each play
@@ -21,7 +21,8 @@ for i in range (totalPlays):
 
     while(done is False):
         plays = i  # used to determine natural blackJack
-        sum,dealers,usableAce,cash = env._get_obs()
+        sum,dealers,usableAce = env._get_obs()
+        cash = env.get_current_cash()
 
         if not usableAce:
             if sum<=11 or (dealers>7 and sum<=16):
@@ -63,11 +64,11 @@ winRate = (wins/plays) * 100
 tieRate = (ties/plays) * 100
 lossRate = (losses/plays) * 100
 print(env.get_current_cash())
-print("Total Plays: ", plays)
+print("Total Plays: "+ str(plays))
 print("-------------")
-print("Wins: ", wins, "| Win Rate: ", winRate)
-print("Natural BlackJacks: ", naturals)
+print("Wins: "+ str(wins)+ "| Win Rate: "+ str(winRate))
+print("Natural BlackJacks: "+ str(naturals))
 print(" ")
-print("Ties: ", ties, "| Tie Rate: ", tieRate)
+print("Ties: "+ str(ties)+ "| Tie Rate: "+ str(tieRate))
 print(" ")
-print("Losses: ", losses, "| Loss Rate: ", lossRate)
+print("Losses: "+ str(losses)+ "| Loss Rate: "+ str(lossRate))

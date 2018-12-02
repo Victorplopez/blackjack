@@ -1,4 +1,4 @@
-import BlackJackEnviornment
+import blackJackEnvironment
 
 def print_hand(hand):
     output = ""
@@ -12,7 +12,8 @@ def playRound():
     roundFinished = False
     while (not roundFinished):
         action = -2
-        playersSum, dealersCards, usableAce, cash = env._get_obs()
+        playersSum, dealersCards, usableAce = env._get_obs()
+        cash = env.get_current_cash()
         playersHand = env.get_players_hand()
         print ("---------------------")
         print("Dealers card [" + str(dealersCards) + "]")
@@ -26,7 +27,7 @@ def playRound():
         observation, reward, roundFinished,test = env.step(action)
 
     dealersCards = env.get_dealers_hand()
-    dealersSum = env.get_dealers_sum()
+    dealersSum = env.get_dealers_hand_sum()
     playersHand = env.get_players_hand()
     playersSum = env.get_players_sum()
 
@@ -59,7 +60,7 @@ def playRound():
 
 
 
-env = BlackJackEnviornment.BlackjackEnv()
+env = blackJackEnvironment.BlackjackEnv()
 
 donePlaying = False
 
