@@ -1,4 +1,5 @@
-To run files in directory, simply open terminal and type: <b>python fileName.py</b>
+To run files in directory, simply open terminal and type(i.e): <b>python randomAgent.py</b><br>
+Note: You cannot run all files except blackJackEnvironment.py<br>
 
 <b>blackJackEnvironment.py</b>: Modified Open AI Gym Environment with additional functionality<br>
 <b>randomAgent.py</b>: Agent randomly hits or stays<br>
