@@ -5,7 +5,7 @@ import blackJackEnvironment
 
 env = blackJackEnvironment.BlackjackEnv()
 
-totalPlays = 1000
+totalPlays = 10
 wins = 0  # keep track of number of wins
 losses = 0  # keep track of number of losses
 ties = 0  # keep track of number of ties
@@ -84,8 +84,13 @@ for i in range(totalPlays):
         sum, dealers, usableAce = env._get_obs()
         state = (sum, dealers)
 
+        print("Agent state: "+ str(state))
+
         stay = valueIteration(state, 0)
         hit = valueIteration(state, 1)
+
+        print("stay(0):"+str(stay))
+        print("hit(1): "+str(hit))
 
         if (stay >= hit):
             action = 0
@@ -93,21 +98,30 @@ for i in range(totalPlays):
         else:
             action = 1
 
+        print("action taken: "+ str(action))
+
         realMove = env.step(action)
 
         if (realMove[2] == True):  # move[2] is done value
             done = True
+            dealersHand = env.get_dealers_hand()
+            dealersHandSum = env.get_dealers_hand_sum()
+            print("Dealer's Hand: "+ str(dealersHand)+ " = "+ str(dealersHandSum))
             if (realMove[1] == 1):  # move[1] holds the reward value
                 wins += 1.00  # if > 0 then agent has won
+                print("End Result = win :-)")
             elif (realMove[1] == 0):
                 ties += 1.00
+                print("End Result = tie :-|")
             else:
                 losses += 1.00
+                print("End Result = loss :-(")
 
             if (iteration == 1 and action == 0 and realMove[0][0] == 21):
                 naturals += 1.00
 
             iteration += 1
+        print("----------------------------------------------")
 
 
 winRate = (wins / totalPlays) * 100

@@ -143,5 +143,10 @@ class BlackjackEnv:
         self.dealer = [card1,card2]
         return is_bust(self.player)
 
+    def get_dealers_hand(self):
+        return self.dealer
+
+    def get_dealers_hand_sum(self):
+        return sum(self.dealer)
     def get_current_cash(self):
         return self.currentCash
